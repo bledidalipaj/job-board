@@ -21,7 +21,7 @@ env = environ.Env(
     # set cating, default value
     DEBUG=(bool, False)
 )
-env_file = os.path.join(BASE_DIR, '.env')
+env_file = os.path.join(BASE_DIR, ".env")
 
 # reading .env file
 environ.Env.read_env(env_file)
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "jobs.apps.JobsConfig",
 ]
 
 MIDDLEWARE = [
