@@ -1,0 +1,58 @@
+<!-- 
+This is my attempt to recreate the Job Board Application that was initially developed by Andy Leverenz from Web-Crunch.
+
+https://www.youtube.com/watch?v=tGUMArAW5OE&list=PL01nNIgQ4uxNkDZNMON-TrzDVNIk3cOz4&index=39&t=0s
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=" />
+    <title>Job Board</title>
+    <!-- Tailwind CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/tailwind.min.css"
+    />
+  </head>
+  <body class="bg-gray-400">
+    {% block body %}
+      <header class="header">
+        <nav class="flex items-center justify-between flex-wrap p-6">
+          <div class="flex items-center flex-shrink-0 text-black mr-6">
+            <span class="font-semibold text-xl tracking-tight">Job Board</span>
+          </div>
+          <div>
+            <a
+              href="#"
+              class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full mr-3"
+            >
+              Post Job
+            </a>
+            <a
+              href="#"
+              class="bg-white text-gray-700 hover:text-gray-900 py-2 px-4 rounded-full mr-3 border-solid border border-gray-600"
+            >
+              Sign In
+            </a>
+            <a
+              href="#"
+              class="bg-white text-gray-700 hover:text-gray-900 py-2 px-4 rounded-full border-solid border border-gray-600"
+            >
+              Sign Up
+            </a>
+          </div>
+        </nav>
+      </header>
+
+      {% block content %} {% endblock content %}
+
+      <footer class="footer py-4">
+        <p class="text-center text-gray-600 text-xs">
+          &copy;2020 Coded by Bledi Dalipaj
+        </p>
+      </footer>
+    {% endblock body %}
+  </body>
+</html>
