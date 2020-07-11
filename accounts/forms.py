@@ -10,6 +10,15 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ("username", "email", "password1", "password2")
 
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        user = User.objects.get(email=email)
+
+        if user:
+            raise forms.ValidationError("Email is already taken.")
+
+        return email
+
 
 class SignInForm(forms.Form):
     email = forms.EmailField()
