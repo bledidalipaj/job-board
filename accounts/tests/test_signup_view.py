@@ -3,8 +3,8 @@ from django.test import TestCase
 from django.urls import resolve, reverse
 
 
-from .forms import SignUpForm
-from .views import signup
+from ..forms import SignUpForm
+from ..views import signup
 
 
 class SignupTests(TestCase):
