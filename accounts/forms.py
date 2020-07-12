@@ -12,7 +12,7 @@ class SignUpForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        user = User.objects.get(email=email)
+        user = User.objects.filter(email=email).first()
 
         if user:
             raise forms.ValidationError("Email is already taken.")
