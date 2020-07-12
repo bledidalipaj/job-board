@@ -4,6 +4,7 @@ This is my attempt to recreate the Job Board Application that was initially deve
 https://www.youtube.com/watch?v=tGUMArAW5OE&list=PL01nNIgQ4uxNkDZNMON-TrzDVNIk3cOz4&index=39&t=0s
 
 -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,33 +16,50 @@ https://www.youtube.com/watch?v=tGUMArAW5OE&list=PL01nNIgQ4uxNkDZNMON-TrzDVNIk3c
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/tailwind.min.css"
     />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
   </head>
   <body class="bg-gray-400">
     {% block body %}
     <header class="header">
-      <nav class="flex items-center justify-between flex-wrap p-6">
+      <nav class="flex items-center justify-between flex-wrap px-6" style="height: 65px;">
         <div class="flex items-center flex-shrink-0 text-black mr-6">
           <span class="font-semibold text-xl tracking-tight">Job Board</span>
         </div>
-        <div>
+        <div class="flex items-center h-full">
           <a
             href="#"
             class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full mr-3"
           >
             Post Job
           </a>
-          <a
-            href="{% url 'signin' %}"
-            class="bg-white text-gray-700 hover:text-gray-900 py-2 px-4 rounded-full mr-3 border-solid border border-gray-600"
-          >
-            Sign In
-          </a>
-          <a
-            href="{% url 'signup' %"
-            class="bg-white text-gray-700 hover:text-gray-900 py-2 px-4 rounded-full border-solid border border-gray-600"
-          >
-            Sign Up
-          </a>
+          {% if user.is_authenticated %}
+            <div class="dropdown relative flex items-center h-full hover:bg-gray-500 px-2 transition">
+              <button class="inline-flex items-center h-full">
+                <span class="mr-1">Account</span>
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </button>
+              
+              <ul class="dropdown-menu absolute bg-white shadow hidden w-32">
+                <li><a href="#" class="py-1 px-4 block hover:bg-gray-200 whitespace-no-wrap">{{ user.username }}</a></li>
+                <li><a href="{% url 'signout' %}" class="py-1 px-4 block hover:bg-gray-200 whitespace-no-wrap">Log out</a></li>
+              </ul>
+              
+                      
+            </div> <!-- end .dropdown -->
+          {% else %}
+            <a
+              href="{% url 'signin' %}"
+              class="bg-white text-gray-700 hover:text-gray-900 py-2 px-4 rounded-full mr-3 border-solid border border-gray-600"
+            >
+              Sign In
+            </a>
+            <a
+              href="{% url 'signup' %"
+              class="bg-white text-gray-700 hover:text-gray-900 py-2 px-4 rounded-full border-solid border border-gray-600"
+            >
+              Sign Up
+            </a>
+          {% endif %}
         </div>
       </nav>
     </header>
