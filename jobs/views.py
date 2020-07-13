@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+
+from .forms import NewJobForm
 
 
 def list_jobs(request):
@@ -6,4 +8,11 @@ def list_jobs(request):
 
 
 def post_job(request):
-    return render(request, "jobs/post_job.html")
+    if request.method == "POST":
+        form = NewJobForm(request.POST)
+
+        if form.is_valid():
+            return redirect("/")
+    else:
+        form = NewJobForm()
+    return render(request, "jobs/post_job.html", {"form": form})
