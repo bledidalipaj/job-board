@@ -2,4 +2,7 @@ from django.apps import AppConfig
 
 
 class JobsConfig(AppConfig):
-    name = 'jobs'
+    name = "jobs"
+
+    def ready(self):
+        import jobs.signals
