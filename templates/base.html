@@ -10,12 +10,17 @@ https://www.youtube.com/watch?v=tGUMArAW5OE&list=PL01nNIgQ4uxNkDZNMON-TrzDVNIk3c
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=" />
-    <title>Job Board</title>
+    <title>{% block title %}Job Board{% endblock title %}</title>
     <!-- Tailwind CSS -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/tailwind.min.css"
     />
+    
+    {% block css %}{% endblock css%}
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
   </head>
   <body class="bg-gray-400">
@@ -27,7 +32,7 @@ https://www.youtube.com/watch?v=tGUMArAW5OE&list=PL01nNIgQ4uxNkDZNMON-TrzDVNIk3c
         </div>
         <div class="flex items-center h-full">
           <a
-            href="#"
+            href="{% url 'post_job' %}"
             class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full mr-3"
           >
             Post Job
@@ -72,5 +77,8 @@ https://www.youtube.com/watch?v=tGUMArAW5OE&list=PL01nNIgQ4uxNkDZNMON-TrzDVNIk3c
       </p>
     </footer>
     {% endblock body %}
+
+    {% block scripts %}
+    {% endblock scripts %}
   </body>
 </html>
