@@ -12,7 +12,7 @@
 {% block content %}
   <main class="main bg-white px-6 md:px-16 py-6">
     <div class="w-full max-w-xl mx-auto">
-      <form action="" method="post" novalidate>
+      <form action="" method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
         <h1 class="text-2xl mb-2">Post new job</h1>
