@@ -190,6 +190,10 @@
               {% render_field form.company_logo class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %}
             {% endif %}
           </div>
+          <!-- Image Preview -->
+          <div class="image-preview mb-4 flex justify-center align-items hidden" id="previewImageContainer">
+            <img src="" alt="Image preview" class="preview-image" style="max-height: 250px">
+          </div>
         </div>
         <!-- end job-info -->
 
@@ -221,9 +225,38 @@
   <!-- DOM ready -->
   <script>
     window.addEventListener("DOMContentLoaded", (event) => {
+      // Initialize Simple Markdown Editor
       let simpleMde = new SimpleMDE({
         element: document.getElementById("id_description")
       });
+
+
+      // Preview company logo image
+      const imageInputField = document.getElementById("id_company_logo");
+      const previewImageContainer = document.getElementById("previewImageContainer");
+      const previewImage = previewImageContainer.querySelector(".preview-image");
+
+      imageInputField.addEventListener("change", function() {
+        const imageFile = this.files[0];
+        
+        if (imageFile) {
+          const reader = new FileReader();
+          previewImageContainer.classList.remove("hidden");
+          reader.addEventListener("load", function() {
+            previewImage.setAttribute("src", this.result);
+          });
+          reader.readAsDataURL(imageFile);
+        } else {
+          // if no image is selected
+          previewImageContainer.classList.add("hidden");
+          previewImage.setAttribute("src", "");
+
+        }
+      });
+
+
+
+
     });
   </script>
 {% endblock scripts %}
