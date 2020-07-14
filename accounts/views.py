@@ -28,6 +28,7 @@ def signin(request):
             # authenticate and login user
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
+            next_page = request.POST.get("next")
 
             user = User.objects.filter(email=email).first()
             if user:
@@ -36,8 +37,10 @@ def signin(request):
                 )
                 if authenticated_user is not None:
                     login(request, authenticated_user)
-
-                    return redirect("list_jobs")
+                    if next_page:
+                        return redirect(next_page)
+                    else:
+                        return redirect("list_jobs")
 
             if not user or not authenticated_user:
                 messages.warning(request, "Incorrect email or password.")

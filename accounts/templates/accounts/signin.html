@@ -25,6 +25,7 @@
 
 
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
         
 
         {% for field in form %}
