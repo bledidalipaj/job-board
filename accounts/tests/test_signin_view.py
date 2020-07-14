@@ -27,9 +27,9 @@ class SigninTests(TestCase):
 
     def test_form_inputs(self):
         """
-        The view must contain three inputs: csrf, email, password
+        The view must contain four inputs: csrf, next, email, password
         """
-        self.assertContains(self.response, "<input", 3)
+        self.assertContains(self.response, "<input", 4)
         self.assertContains(self.response, 'type="email"', 1)
         self.assertContains(self.response, 'type="password"', 1)
 
