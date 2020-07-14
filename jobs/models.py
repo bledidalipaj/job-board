@@ -38,7 +38,7 @@ class Job(models.Model):
         User, related_name="my_applications", blank=True
     )
 
-    fulfilled = models.BooleanField()
+    fulfilled = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.title} at {self.company}"
