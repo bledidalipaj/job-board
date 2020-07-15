@@ -20,6 +20,7 @@ class TestPostJob(TestCase):
         self.assertEquals(response.status_code, 302)
 
     def test_get(self):
+        # the password should be plain text
         self.client.login(username=self.user.username, password="django")
         response = self.client.get(self.url)
         self.assertEquals(response.status_code, 200)
@@ -58,28 +59,8 @@ class TestPostJob(TestCase):
         view = resolve("/post_job/")
         self.assertEquals(view.func, post_job)
 
-    # def test_csrf(self):
-    #     self.assertContains(self.response, "csrfmiddlewaretoken")
-
     def test_contains_form(self):
         self.client.login(username=self.user.username, password="django")
         response = self.client.get(self.url)
         form = response.context.get("form")
         self.assertIsInstance(form, NewJobForm)
-
-    # def test_form_inputs(self):
-    #     """
-    #     The view must contain nine inputs:
-    #         - csrf
-    #         - title
-    #         - link_to_apply
-    #         - job_type
-    #         - location
-    #         - remote
-    #         - descritpion
-    #         - company
-    #         - company_logo
-    #     """
-    #     self.client.login(username=self.user.username, password=self.user.password)
-    #     response = self.client.get(reverse("post_job"))
-    #     self.assertContains(response, "<input", 9)
