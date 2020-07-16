@@ -9,6 +9,7 @@ from .models import Job
 class ListJobsView(ListView):
     context_object_name = "jobs"
     model = Job
+    paginate_by = 5
     template_name = "jobs/list.html"
 
 
