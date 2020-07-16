@@ -24,7 +24,7 @@ class Job(models.Model):
     remote = models.BooleanField()
     description = models.TextField()
     company = models.CharField(max_length=255)
-    company_website = models.CharField(max_length=255)
+    company_website = models.URLField(max_length=255)
     company_logo = models.ImageField(upload_to="media/logo")
 
     posted_by = models.ForeignKey(
@@ -42,4 +42,7 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.title} at {self.company}"
+
+    class Meta:
+        ordering = ["-created"]
 
