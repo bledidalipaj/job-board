@@ -25,131 +25,51 @@
     </aside>
 
     <main class="main bg-white px-16 py-6">
-      <div class="job flex mb-6 border-b pb-4">
-        <div class="employer-logo flex-none mr-8">
-          <img
-            class="h-12 w-12"
-            src="https://www.leadeight.com/wp-content/uploads/2017/08/basecamp-logo-e1503765309709.png"
-            alt=""
-          />
-        </div>
+      {% for job in jobs %}
+        <div class="job flex mb-6 {% if not forloop.last %}border-b{% endif %} pb-4">
+          <div class="employer-logo flex-none mr-8">
+            <img
+              class="h-12 w-12"
+              src="{{ job.company_logo.url }}"
+              alt=""
+            />
+          </div>
 
-        <div class="job-post w-3/4">
-          <h5 class="job-title font-bold text-lg">Rails Engineer</h5>
-          <span class="employer">Basecamp</span>
-          <p class="job-description text-sm text-gray-600 leading-tight">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            inventore, aliquam voluptas vitae sint unde quos ex, asperiores cumque
-            suscipit mollitia molestias alias ut aspernatur temporibus, libero
-            recusandae amet. Dignissimos.
-          </p>
-        </div>
+          <div class="job-post w-3/4">
+            <h5 class="job-title font-bold text-lg">{{ job.title }}</h5>
+            <span class="employer">{{ job.company }}</span>
+            <p class="job-description text-sm text-gray-600 leading-tight">
+              {{ job.description|truncatechars:300 }}
+            </p>
+          </div>
 
-        <div class="job-meta w-1/4 text-right">
-          <span class="job-type bg-teal-500 text-white p-1 text-xs"
-            >Full-time</span
-          >
-          <br />
-          <span class="job-location text-xs">Chicago</span>
+          <div class="job-meta w-1/4 text-right">
+            {% if job.job_type == "Full-time" %}
+              <span class="job-type bg-teal-500 text-white p-1 text-xs"
+                >{{ job.job_type }}</span
+              >
+            {% elif job.job_type == "Part-time" %}
+              <span class="job-type bg-blue-700 text-white p-1 text-xs"
+                >{{ job.job_type }}</span
+              >
+            {% elif job.job_type == "Freelance" %}
+              <span class="job-type bg-yellow-500 text-white p-1 text-xs"
+                >{{ job.job_type }}</span
+              >
+            {% else %}
+              <span class="job-type bg-blue-400 text-white p-1 text-xs"
+                >{{ job.job_type }}</span
+              >
+            {% endif %}
+            <br />
+            {% if job.location %}
+              <span class="job-location text-xs">{{ job.location }}</span>
+            {% else %}
+              <span class="job-location text-xs">Remote</span>
+            {% endif %}
+          </div>
         </div>
-        <hr />
-      </div>
-      <!-- /.job -->
-
-      <div class="job flex mb-6 border-b pb-4">
-        <div class="employer-logo flex-none mr-8">
-          <img
-            class="h-12 w-12"
-            src="https://s.w.org/style/images/about/simplified.png"
-            alt=""
-          />
-        </div>
-
-        <div class="job-post w-3/4">
-          <h5 class="job-title font-bold text-lg">Platform Engineer</h5>
-          <span class="employer">WordPress</span>
-          <p class="job-description text-sm text-gray-600 leading-tight">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            inventore, aliquam voluptas vitae sint unde quos ex, asperiores cumque
-            suscipit mollitia molestias alias ut aspernatur temporibus, libero
-            recusandae amet. Dignissimos.
-          </p>
-        </div>
-
-        <div class="job-meta w-1/4 text-right">
-          <span class="job-type bg-teal-500 text-white p-1 text-xs"
-            >Full-time</span
-          >
-          <br />
-          <span class="job-location text-xs">Chicago</span>
-        </div>
-        <hr />
-      </div>
-      <!-- /.job -->
-
-      <div class="job flex mb-6 border-b pb-4">
-        <div class="employer-logo flex-none mr-8">
-          <img
-            class="h-12 w-12"
-            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-            alt=""
-          />
-        </div>
-
-        <div class="job-post w-3/4">
-          <h5 class="job-title font-bold text-lg">
-            Senior Mobile Developer for Flutter / Dart
-          </h5>
-          <span class="employer">Github</span>
-          <p class="job-description text-sm text-gray-600 leading-tight">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            inventore, aliquam voluptas vitae sint unde quos ex, asperiores cumque
-            suscipit mollitia molestias alias ut aspernatur temporibus, libero
-            recusandae amet. Dignissimos.
-          </p>
-        </div>
-
-        <div class="job-meta w-1/4 text-right">
-          <span class="job-type bg-teal-500 text-white p-1 text-xs"
-            >Full-time</span
-          >
-          <br />
-          <span class="job-location text-xs">Cologne</span>
-        </div>
-        <hr />
-      </div>
-      <!-- /.job -->
-
-      <div class="job flex mb-6 pb-4">
-        <div class="employer-logo flex-none mr-8">
-          <img
-            class="h-12 w-12"
-            src="https://d35aaqx5ub95lt.cloudfront.net/images/logo-with-duo.png"
-            alt=""
-          />
-        </div>
-
-        <div class="job-post w-3/4">
-          <h5 class="job-title font-bold text-lg">
-            Test Automation Engineer
-          </h5>
-          <span class="employer">Duolingo</span>
-          <p class="job-description text-sm text-gray-600 leading-tight">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            inventore, aliquam voluptas vitae sint unde quos ex, asperiores cumque
-            suscipit mollitia molestias alias ut aspernatur temporibus, libero
-            recusandae amet. Dignissimos.
-          </p>
-        </div>
-
-        <div class="job-meta w-1/4 text-right">
-          <span class="job-type bg-teal-500 text-white p-1 text-xs"
-            >Full-time</span
-          >
-          <br />
-          <span class="job-location text-xs">Pittsburgh, PA</span>
-        </div>
-      </div>
+      {% endfor %}
       <!-- /.job -->
     </main>
   </div>

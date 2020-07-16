@@ -1,11 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.views.generic import ListView
 
 from .forms import NewJobForm
+from .models import Job
 
 
-def list_jobs(request):
-    return render(request, "jobs/list.html")
+class ListJobsView(ListView):
+    context_object_name = "jobs"
+    model = Job
+    template_name = "jobs/list.html"
 
 
 @login_required
