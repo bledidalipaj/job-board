@@ -9,8 +9,24 @@ from .models import Job
 class ListJobsView(ListView):
     context_object_name = "jobs"
     model = Job
-    paginate_by = 5
+    paginate_by = 2
     template_name = "jobs/list.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        job_type = self.request.GET.get("job_type")
+
+        if job_type:
+            context["job_type"] = job_type
+        return context
+
+    def get_queryset(self, **kwargs):
+        # get query string
+        job_type = self.request.GET.get("job_type")
+
+        if job_type:
+            return Job.objects.filter(job_type=job_type)
+        return Job.objects.all()
 
 
 @login_required
