@@ -24,9 +24,9 @@
       </ul>
     </aside>
 
-    <main class="main bg-white px-16 py-6 w-full">
+    <main class="main bg-white w-full">
       {% for job in jobs %}
-        <div class="job flex mb-6 {% if not forloop.last %}border-b{% endif %} pb-4">
+        <div class="job flex pl-4 sm:pl-8 md:pl-16 pr-4 sm:pr-8 py-6 hover:bg-gray-200 border-b ">
           <div class="employer-logo flex-none mr-8">
             <img
               class="h-12 w-12"
