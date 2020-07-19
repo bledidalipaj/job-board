@@ -7,6 +7,7 @@ from django.urls import resolve, reverse
 from PIL import Image
 
 from ..forms import NewJobForm
+from ..models import Job
 from ..views import post_job
 
 
@@ -64,3 +65,44 @@ class TestPostJob(TestCase):
         response = self.client.get(self.url)
         form = response.context.get("form")
         self.assertIsInstance(form, NewJobForm)
+
+
+class TestListJobsView(TestCase):
+    def setUp(self):
+        self.url = reverse("list_jobs")
+        User.objects.create(username="Chino", password="django")
+        Job.objects.create(
+            title="Python developer",
+            link_to_apply="https://docs.djangoproject.com",
+            job_type="Full-time",
+            location="",
+            remote=True,
+            description="The best job ever.",
+            company="Django",
+            company_logo="logo.png",
+            posted_by=User.objects.get(pk=1),
+        )
+
+        Job.objects.create(
+            title="Django developer",
+            link_to_apply="https://www.squarespace.com/",
+            job_type="Part-time",
+            location="",
+            remote=True,
+            description="The best job ever.",
+            company="Squarespace",
+            company_logo="logo.png",
+            posted_by=User.objects.get(pk=1),
+        )
+
+    def test_get(self):
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_has_job_type(self):
+        """
+        Assert that job_type is in context when filtering by job type.
+        """
+        response = self.client.get(self.url + "?job_type=Full-time")
+        job_type = response.context.get("job_type")
+        self.assertIsNotNone(job_type)
