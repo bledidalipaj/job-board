@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
 from .forms import NewJobForm
 from .models import Job
@@ -27,6 +27,11 @@ class ListJobsView(ListView):
         if job_type:
             return Job.objects.filter(job_type=job_type)
         return Job.objects.all()
+
+
+class JobDetailView(DetailView):
+    model = Job
+    template_name = "jobs/detail.html"
 
 
 @login_required
