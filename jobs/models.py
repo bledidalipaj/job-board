@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.safestring import mark_safe
+
+from markdown import markdown
 
 
 class Job(models.Model):
@@ -45,4 +48,7 @@ class Job(models.Model):
 
     class Meta:
         ordering = ["-created"]
+
+    def get_description_as_markdown(self):
+        return mark_safe(markdown(self.description))
 

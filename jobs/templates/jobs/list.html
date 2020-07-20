@@ -38,9 +38,9 @@
           <div class="job-post w-3/4">
             <h5 class="job-title font-bold text-lg"><a href="{% url 'job_detail' job.pk %}" class="hover:underline">{{ job.title }}</a></h5>
             <span class="employer">{{ job.company }}</span>
-            <p class="job-description text-sm text-gray-600 leading-tight">
-              {{ job.description|truncatechars:300 }}
-            </p>
+            <div class="job-description text-sm text-gray-600 leading-tight">
+              {{ job.get_description_as_markdown|truncatechars:300 }}
+            </div>
           </div>
 
           <div class="job-meta w-1/4 text-right">

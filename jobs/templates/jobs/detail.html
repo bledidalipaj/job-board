@@ -72,8 +72,8 @@
           </div>
         </div>
 
-        <div class="job-description mb-4">
-          {{ object.description }}
+        <div class="detail-job-description mb-4 list-style-disc">
+          {{ object.get_description_as_markdown }}
         </div>
 
         <a
