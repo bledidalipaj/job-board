@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    403 Forbidden
+{% endblock title %}
+
+{% block body %}
+    <div class="text-center py-8 h-screen bg-white">
+        <!-- I could not find a proper image -->
+        <img src="{% static 'images/forbidden.svg' %}" alt="Page not found" class="h-64 m-auto mb-6">
+
+        <div>
+            <h1 class="text-2xl mb-2 font-black">We are Sorry...</h1>
+            <p class="text-gray-600">
+                The page you're trying to access has restricted access.
+            </p>
+        </div>
+
+        <div class="mt-6">
+            <a href="{% url 'list_jobs' %}" class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 rounded shadow-xl">Go Back</a>
+        </div>
+    </div>
+{% endblock body %}
