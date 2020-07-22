@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, UpdateView
 
 from .forms import NewJobForm
 from .models import Job
@@ -34,6 +35,12 @@ class JobDetailView(DetailView):
     template_name = "jobs/detail.html"
 
 
+class JobUpdateView(LoginRequiredMixin, UpdateView):
+    model = Job
+    form_class = NewJobForm
+    template_name = "jobs/create_update_job.html"
+
+
 @login_required
 def post_job(request):
     if request.method == "POST":
@@ -47,4 +54,4 @@ def post_job(request):
             return redirect("/")
     else:
         form = NewJobForm()
-    return render(request, "jobs/post_job.html", {"form": form})
+    return render(request, "jobs/create_update_job.html", {"form": form})

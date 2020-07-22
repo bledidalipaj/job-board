@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from markdown import markdown
@@ -51,4 +52,7 @@ class Job(models.Model):
 
     def get_description_as_markdown(self):
         return mark_safe(markdown(self.description))
+
+    def get_absolute_url(self):
+        return reverse("job_detail", kwargs={"pk": self.pk})
 

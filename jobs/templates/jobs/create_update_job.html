@@ -2,7 +2,11 @@
 {% load widget_tweaks %}
 
 {% block title %}
-  Post a New Job
+  {% if object %}
+    Update Job
+  {% else %}
+    Post a New Job
+  {% endif %}
 {% endblock title %}
 
 {% block css %}
@@ -197,13 +201,16 @@
         </div>
         <!-- end job-info -->
 
-        <div class="payment mb-6">
-          <h4 class="mb-2">Payment</h4>
-          <p class="bg-gray-200 py-3 text-center text-sm">
-            <span><i class="far fa-credit-card"></i></span>
-            All jobs cost <strong>€300</strong> for 30 days.
-          </p>
-        </div>
+        {% if not object %}
+        <!-- This will be visible only when posting a new job -->
+          <div class="payment mb-6">
+            <h4 class="mb-2">Payment</h4>
+            <p class="bg-gray-200 py-3 text-center text-sm">
+              <span><i class="far fa-credit-card"></i></span>
+              All jobs cost <strong>€300</strong> for 30 days.
+            </p>
+          </div>
+        {% endif %}
 
         <!--     Submit     -->
         <div>
@@ -211,7 +218,11 @@
             class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 rounded"
             type="submit"
           >
-            Create job
+            {% if object %}
+              Update job
+            {% else %}
+              Create job
+            {% endif %}
           </button>
         </div>
       </form>
