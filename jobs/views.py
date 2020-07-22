@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView, UpdateView
 
@@ -35,10 +35,17 @@ class JobDetailView(DetailView):
     template_name = "jobs/detail.html"
 
 
-class JobUpdateView(LoginRequiredMixin, UpdateView):
+class JobUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Job
     form_class = NewJobForm
     template_name = "jobs/create_update_job.html"
+
+    def test_func(self):
+        job = self.get_object()
+
+        if self.request.user == job.posted_by:
+            return True
+        return False
 
 
 @login_required
