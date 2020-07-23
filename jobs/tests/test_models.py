@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.urls import reverse
 
 from ..models import Job
 
@@ -31,8 +32,14 @@ class TestJob(TestCase):
     def test_expires(self):
         """
         Test that the expires field is set as follows:
-        
+
         expires = created + datetime.timedelta(days=JOB_DURATION_DAYS)
         """
         job = Job.objects.get(pk=1)
         self.assertIsNotNone(job.expires)
+
+    def test_absolute_url(self):
+        job = Job.objects.get(pk=1)
+        self.assertEquals(
+            job.get_absolute_url(), reverse("job_detail", kwargs={"pk": 1})
+        )
