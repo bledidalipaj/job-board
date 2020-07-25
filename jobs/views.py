@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect, render
-from django.views.generic import DetailView, ListView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import DeleteView, DetailView, ListView, UpdateView
 
 from .forms import NewJobForm
 from .models import Job
@@ -28,6 +29,18 @@ class ListJobsView(ListView):
         if job_type:
             return Job.objects.filter(job_type=job_type)
         return Job.objects.all()
+
+
+class JobDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Job
+    success_url = reverse_lazy("list_jobs")
+
+    def test_func(self):
+        job = self.get_object()
+
+        if self.request.user == job.posted_by:
+            return True
+        return False
 
 
 class JobDetailView(DetailView):

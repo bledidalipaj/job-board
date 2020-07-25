@@ -66,11 +66,10 @@
                 class="border border-2 text-teal-500 hover:text-white rounded border-teal-500 hover:bg-teal-500 p-1 mr-1"
                 >Edit</a
               >
-              <a
-                href="#"
-                class="border border-2 text-red-500 hover:text-white rounded border-red-500 hover:bg-red-500 p-1"
-                >Delete</a
-              >
+              <button
+                class="delete-btn border border-2 text-red-500 hover:text-white rounded border-red-500 hover:bg-red-500 p-1"
+                >Delete
+              </button>
             </div>
           </div>
         {% endif %}
@@ -122,11 +121,10 @@
                 class="border border-2 text-teal-500 hover:text-white rounded border-teal-500 hover:bg-teal-500 p-1 mr-1"
                 >Edit</a
               >
-              <a
-                href="#"
-                class="border border-2 text-red-500 hover:text-white rounded border-red-500 hover:bg-red-500 p-1"
-                >Delete</a
-              >
+              <button
+                class="delete-btn border border-2 text-red-500 hover:text-white rounded border-red-500 hover:bg-red-500 p-1"
+                >Delete
+              </button>
             </div>
           </div>
         {% endif %}
@@ -135,4 +133,29 @@
       <!-- end w-3/12 -->
     </div>
   </main>
+
+  {% include "partials/_modal.html" with pk=object.pk %}
 {% endblock content %}
+
+{% block scripts %}
+  <!-- DOM ready -->
+  <script>
+    window.addEventListener("DOMContentLoaded", (event) => {
+      let deleteBtns = document.querySelectorAll(".delete-btn");
+      const modal = document.querySelector(".modal");
+      const cancelBtn = document.querySelector(".cancel-btn")
+
+
+      deleteBtns.forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          modal.style.display = "flex";
+        });
+      });
+
+      cancelBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+      });
+    });
+  </script>
+{% endblock scripts %}
+  

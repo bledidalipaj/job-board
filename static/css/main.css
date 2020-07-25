@@ -58,3 +58,7 @@
   display: block;
   visibility: visible;
 }
+
+.modal {
+  display: none;
+}

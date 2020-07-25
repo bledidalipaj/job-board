@@ -108,6 +108,47 @@ class TestListJobsView(TestCase):
         self.assertIsNotNone(job_type)
 
 
+class TestJobDeleteView(TestCase):
+    def setUp(self):
+        self.url = reverse("job_delete", kwargs={"pk": 1})
+        self.user1 = User.objects.create_user("Chino", "chino@email.com", "django")
+        self.user2 = User.objects.create_user("Tina", "tina@email.com", "django")
+
+        Job.objects.create(
+            title="Python developer",
+            link_to_apply="https://docs.djangoproject.com",
+            job_type="Full-time",
+            location="",
+            remote=True,
+            description="The best job ever.",
+            company="Django",
+            company_logo="logo.png",
+            posted_by=User.objects.get(pk=1),
+        )
+
+    def test_unauthenticated_access(self):
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 302)
+
+    def test_post(self):
+        # the password should be plain text
+        self.client.login(username=self.user1.username, password="django")
+        response = self.client.post(self.url)
+        self.assertEquals(Job.objects.count(), 0)
+        self.assertEquals(response.status_code, 302)
+
+    def test_post_other_user(self):
+        """
+        A job should only be deleted by the user that created it.
+
+        Expecting: 403 Forbidden
+        """
+        self.client.login(username=self.user2.username, password="django")
+        response = self.client.post(self.url)
+        self.assertEquals(response.status_code, 403)
+        self.assertTemplateUsed(response, "403.html")
+
+
 class TestJobDetailView(TestCase):
     def setUp(self):
         self.url = reverse("job_detail", kwargs={"pk": 1})
