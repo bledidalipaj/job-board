@@ -19,7 +19,13 @@
       <form action="" method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
-        <h1 class="text-2xl mb-2">Post new job</h1>
+        <h1 class="text-2xl mb-2">
+          {% if object %}
+            Update job
+          {% else %}
+            Post new job
+          {% endif %}
+        </h1>
 
         <div class="job-info border-b-2 py-2 mb-5">
           <!--    Title      -->
@@ -181,7 +187,7 @@
           <!--      Company Logo      -->
           <div class="mb-4 md:mb-0">
             {{ form.company_logo|add_label_class:"block text-gray-700 text-sm mb-2" }}
-
+            
             {% if form.company_logo.errors %}
               {% render_field form.company_logo class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %}
 
@@ -191,13 +197,25 @@
                   </div>
               {% endfor %}
             {% else %}
-              {% render_field form.company_logo class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %}
+              {% if object %}
+                <div class="show-only-input">
+                  {% render_field form.company_logo class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %}
+                </div>
+              {% else %}
+                {% render_field form.company_logo class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %}
+              {% endif %}
             {% endif %}
           </div>
           <!-- Image Preview -->
-          <div class="image-preview mb-4 flex justify-center align-items hidden" id="previewImageContainer">
-            <img src="" alt="Image preview" class="preview-image" style="max-height: 250px">
-          </div>
+          {% if object %}
+            <div class="image-preview mb-4 flex justify-center align-items" id="previewImageContainer">
+              <img src="{{ object.company_logo.url }}" alt="Company logo" class="preview-image" style="max-height: 250px">
+            </div>
+          {% else %}
+            <div class="image-preview mb-4 flex justify-center align-items hidden" id="previewImageContainer">
+              <img src="" alt="Image preview" class="preview-image" style="max-height: 250px">
+            </div>
+          {% endif %}
         </div>
         <!-- end job-info -->
 
@@ -214,8 +232,19 @@
 
         <!--     Submit     -->
         <div>
+          {% if object %}
+            <a href="{% url 'job_detail' object.pk %}"
+              class="hover:bg-gray-300 text-blue-700 font-bold py-2 px-3 rounded">
+              Cancel
+            </a>
+          {% else %}
+            <a href="{% url 'list_jobs' %}"
+              class="hover:bg-gray-300 text-blue-700 font-bold py-2 px-3 rounded">
+              Cancel
+            </a>
+          {% endif %}
           <button
-            class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 rounded"
+            class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-3 rounded ml-3"
             type="submit"
           >
             {% if object %}

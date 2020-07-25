@@ -34,3 +34,27 @@
 .job-description > p {
   margin-bottom: 0.3rem;
 }
+
+/*
+  Hide part of the generated html for company logo input field.
+  The html that was hidden is the following:
+
+  Currently:
+  <a href="company_logo_media_url">company logo file name</a>
+  <br>
+  Change:
+**/
+
+.show-only-input {
+  visibility: hidden;
+  margin-top: -25px;
+}
+
+.show-only-input > * {
+  display: none;
+}
+
+.show-only-input > input {
+  display: block;
+  visibility: visible;
+}
