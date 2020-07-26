@@ -1,11 +1,13 @@
 import tempfile
 
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
 
 from PIL import Image
 
+from accounts.tests.factories import UserFactory
+
+from .factories import JobFactory
 from ..forms import NewJobForm
 from ..models import Job
 from ..views import post_job
@@ -14,7 +16,7 @@ from ..views import post_job
 class TestPostJob(TestCase):
     def setUp(self):
         self.url = reverse("post_job")
-        self.user = User.objects.create_user("Chino", "chino@email.com", "django")
+        self.user = UserFactory()
 
     def test_unauthenticated_access(self):
         response = self.client.get(self.url)
@@ -70,30 +72,10 @@ class TestPostJob(TestCase):
 class TestListJobsView(TestCase):
     def setUp(self):
         self.url = reverse("list_jobs")
-        User.objects.create(username="Chino", password="django")
-        Job.objects.create(
-            title="Python developer",
-            link_to_apply="https://docs.djangoproject.com",
-            job_type="Full-time",
-            location="",
-            remote=True,
-            description="The best job ever.",
-            company="Django",
-            company_logo="logo.png",
-            posted_by=User.objects.get(pk=1),
-        )
+        UserFactory()
 
-        Job.objects.create(
-            title="Django developer",
-            link_to_apply="https://www.squarespace.com/",
-            job_type="Part-time",
-            location="",
-            remote=True,
-            description="The best job ever.",
-            company="Squarespace",
-            company_logo="logo.png",
-            posted_by=User.objects.get(pk=1),
-        )
+        JobFactory(job_type="Full-time")
+        JobFactory(job_type="Part-time")
 
     def test_get(self):
         response = self.client.get(self.url)
@@ -111,20 +93,10 @@ class TestListJobsView(TestCase):
 class TestJobDeleteView(TestCase):
     def setUp(self):
         self.url = reverse("job_delete", kwargs={"pk": 1})
-        self.user1 = User.objects.create_user("Chino", "chino@email.com", "django")
-        self.user2 = User.objects.create_user("Tina", "tina@email.com", "django")
+        self.user1 = UserFactory()
+        self.user2 = UserFactory()
 
-        Job.objects.create(
-            title="Python developer",
-            link_to_apply="https://docs.djangoproject.com",
-            job_type="Full-time",
-            location="",
-            remote=True,
-            description="The best job ever.",
-            company="Django",
-            company_logo="logo.png",
-            posted_by=User.objects.get(pk=1),
-        )
+        JobFactory(posted_by=self.user1)
 
     def test_unauthenticated_access(self):
         response = self.client.get(self.url)
@@ -152,18 +124,8 @@ class TestJobDeleteView(TestCase):
 class TestJobDetailView(TestCase):
     def setUp(self):
         self.url = reverse("job_detail", kwargs={"pk": 1})
-        User.objects.create_user("Chino", "chino@email.com", "django")
-        Job.objects.create(
-            title="Python developer",
-            link_to_apply="https://docs.djangoproject.com",
-            job_type="Full-time",
-            location="",
-            remote=True,
-            description="The best job ever.",
-            company="Django",
-            company_logo="logo.png",
-            posted_by=User.objects.get(pk=1),
-        )
+        UserFactory()
+        JobFactory()
 
     def test_get(self):
         response = self.client.get(self.url)
@@ -173,20 +135,10 @@ class TestJobDetailView(TestCase):
 class TestJobUpdateView(TestCase):
     def setUp(self):
         self.url = reverse("job_update", kwargs={"pk": 1})
-        self.user1 = User.objects.create_user("Chino", "chino@email.com", "django")
-        self.user2 = User.objects.create_user("Tina", "tina@email.com", "django")
+        self.user1 = UserFactory()
+        self.user2 = UserFactory()
 
-        Job.objects.create(
-            title="Python developer",
-            link_to_apply="https://docs.djangoproject.com",
-            job_type="Full-time",
-            location="",
-            remote=True,
-            description="The best job ever.",
-            company="Django",
-            company_logo="logo.png",
-            posted_by=User.objects.get(pk=1),
-        )
+        JobFactory(posted_by=self.user1)
 
     def test_unauthenticated_access(self):
         response = self.client.get(self.url)

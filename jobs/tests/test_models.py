@@ -1,33 +1,20 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from ..models import Job
+from .factories import JobFactory
 
 
 class TestJob(TestCase):
     @classmethod
     def setUpTestData(cls):
-        User.objects.create(username="Chino", password="django")
-        Job.objects.create(
-            title="Python developer",
-            link_to_apply="https://docs.djangoproject.com",
-            job_type="Full-time",
-            location="",
-            remote=True,
-            description="The best job ever.",
-            company="Django",
-            company_logo="logo.png",
-            posted_by=User.objects.get(pk=1),
-        )
+        cls.job = JobFactory()
 
     def test_creation(self):
-        job = Job.objects.get(pk=1)
-        self.assertIsNotNone(job)
+        self.assertIsNotNone(TestJob.job)
 
     def test_str(self):
-        job = Job.objects.get(pk=1)
-        self.assertEquals(str(job), "Python developer at Django")
+        job = TestJob.job
+        self.assertEquals(str(job), f"{job.title} at {job.company}")
 
     def test_expires(self):
         """
@@ -35,11 +22,11 @@ class TestJob(TestCase):
 
         expires = created + datetime.timedelta(days=JOB_DURATION_DAYS)
         """
-        job = Job.objects.get(pk=1)
+        job = TestJob.job
         self.assertIsNotNone(job.expires)
 
     def test_absolute_url(self):
-        job = Job.objects.get(pk=1)
+        job = TestJob.job
         self.assertEquals(
             job.get_absolute_url(), reverse("job_detail", kwargs={"pk": 1})
         )
