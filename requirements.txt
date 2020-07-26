@@ -6,3 +6,4 @@ Pillow==7.2.0
 
 # dev-packages
 coverage==5.2
+factory-boy
