@@ -2,7 +2,7 @@ Django>=3.0.8,<3.1.0
 django-environ==0.4.5
 django-widget-tweaks==1.4.8
 Markdown==3.2.2
-Pillow==8.1.1
+Pillow==8.2.0
 
 # dev-packages
 coverage==5.2
